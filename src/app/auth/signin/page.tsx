@@ -51,6 +51,7 @@ export default function SignInPage() {
                 />
                 {error && <p style={{ color: 'red' }}>{error}</p>}
                 <button type='submit'>Entrar</button>
+                <a href='http://localhost:3000/auth/reset' className='btn'>Esqueci minha senha</a>
                 <p className='user-not-exists'>Não possui conta?<a href='http://localhost:3000/auth/signup'>Clique aqui!</a></p>
         </form>
     )

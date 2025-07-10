@@ -57,8 +57,6 @@ const authHandlers = {
 
         return data.user;
     }
-
-    //async handleResetPassword(email: string) {},
 };
 
 export const authOptions: NextAuthOptions = {
@@ -76,6 +74,25 @@ export const authOptions: NextAuthOptions = {
             },
 
             async authorize(credentials): Promise<CustomUser | null> {
+                if(credentials?.mode === 'resetpassword') {
+                    try {
+                        const { data, error } = await supabase.auth.resetPasswordForEmail(
+                            credentials?.email,
+                            {
+                                redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/update-password`,
+                            }
+                        );
+                        console.log('Reset password response:', data);
+
+                        if(error) throw error;
+
+                        return null;
+                    } catch(error) {
+                        console.error('Erro ao reescrever senha:', error);
+                        throw new Error('Falha ao enviar e-mail para renovar senha');
+                    }
+                }
+
                 try {
 
                     if(!credentials) {
